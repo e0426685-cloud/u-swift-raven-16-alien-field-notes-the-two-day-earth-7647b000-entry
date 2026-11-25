@@ -21,6 +21,8 @@ def validate(text: str) -> None:
     assert 1 <= len(text) <= 200, f"entry must be 1-200 chars, got {len(text)}"
     assert text.strip(), "entry must not be only whitespace"
     assert "\n" not in text, "entry must be a single line"
+    assert text == text.strip(), "entry must not start or end with whitespace"
+    assert all(ord(ch) >= 32 for ch in text), "entry must not contain control characters"
 
 
 def main() -> None:
@@ -29,6 +31,7 @@ def main() -> None:
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(ENTRY)
     os.chmod(OUTPUT_PATH, 0o644)
+    print(f"wrote {len(ENTRY)} chars to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
